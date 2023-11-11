@@ -8,8 +8,13 @@ body {
     Helvetica Neue,
     Arial,
     sans-serif;
+  overflow-x: hidden;
 }
 
-nav .home-nav {
-  @apply px-[40px] py-[70px];
+.home-nav {
+  @apply flex items-center justify-between px-[20px] py-[40px] md:px-[70px];
+}
+
+.home-nav-left {
+  @apply flex items-center gap-[54px];
 }
