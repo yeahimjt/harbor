@@ -1,9 +1,25 @@
+'use client';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React from 'react';
-
+import { useDialogStore } from '../states';
+import { auth } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/navigation';
 const HomeNav = () => {
+  const { openDialog, setType, type } = useDialogStore();
+  const [user, isLoading] = useAuthState(auth);
+  const router = useRouter();
+  const handleOpen = () => {
+    setType('auth');
+    openDialog();
+  };
+  const handleRedirect = () => {
+    console.log('in here');
+    router.push('/dashboard');
+  };
   return (
-    <nav className='home-nav text-my-black'>
+    <nav className='home-nav'>
       <div className='home-nav-left'>
         <Link className='text-[25px] font-bold' href='/'>
           Harbor
@@ -20,12 +36,23 @@ const HomeNav = () => {
           </Link>
         </span>
       </div>
-      <Link
-        className='border-blue-cta rounded-[20px] border px-8 py-2'
-        href='/sign-up'
-      >
-        Sign Up
-      </Link>
+      {user && !isLoading ? (
+        <Button
+          variant='ghost'
+          className='hover:bg-blue-cta text-[18px] hover:text-white'
+          onClick={() => handleRedirect()}
+        >
+          Dashboard
+        </Button>
+      ) : (
+        <Button
+          variant='ghost'
+          className='hover:bg-blue-cta text-[18px] hover:text-white'
+          onClick={() => handleOpen()}
+        >
+          Sign Up
+        </Button>
+      )}
     </nav>
   );
 };
