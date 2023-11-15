@@ -20,7 +20,7 @@ import {
 const DashNav = () => {
   const [user] = useAuthState(auth);
   return (
-    <nav className='flex h-screen w-[280px] flex-col space-y-16 border  px-4 py-8 text-my-dark-gray'>
+    <nav className='flex h-screen min-w-[280px] max-w-[280px] flex-col space-y-16 border  px-4 py-8 text-my-dark-gray'>
       <section className='space-y-2'>
         <Link className='flex items-center justify-center gap-[10px]' href='/'>
           <Image src='/images/icon.png' width={30} height={30} alt='logo' />
