@@ -6,7 +6,6 @@ import Auth from './auth';
 
 const DialogWrapper = () => {
   const { type, isOpen, closeDialog } = useDialogStore();
-  console.log(isOpen, type);
   return (
     <Dialog open={isOpen} onOpenChange={closeDialog}>
       {type === 'auth' ? <Auth /> : ''}

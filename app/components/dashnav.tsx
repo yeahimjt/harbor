@@ -69,7 +69,6 @@ const DashNav = () => {
       </section>
 
       <section className='flex w-full flex-[1] flex-col items-start justify-end space-y-2 '>
-        <h2 className='text-[18px] font-medium text-my-black'>Settings</h2>
         <Link
           href='/profile'
           className='flex w-full gap-[10px] p-4 hover:bg-slate-50'

@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
-
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
+import AuthProvider from './context/AuthProvider';
 const roboto = Roboto({
   subsets: ['latin'],
   weight: ['100', '300', '400', '500', '700', '900'],
@@ -14,12 +16,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  session,
 }: {
   children: React.ReactNode;
+  session: Session;
 }) {
   return (
     <html lang='en'>
-      <body className={`${roboto.className} `}>{children}</body>
+      <body className={`${roboto.className} `}>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

@@ -6,16 +6,17 @@ import { useDialogStore } from '../states';
 import { auth } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 const HomeNav = () => {
   const { openDialog, setType, type } = useDialogStore();
-  const [user, isLoading] = useAuthState(auth);
+  // const [user, isLoading] = useAuthState(auth);
+  const { data: session } = useSession();
   const router = useRouter();
   const handleOpen = () => {
     setType('auth');
     openDialog();
   };
   const handleRedirect = () => {
-    console.log('in here');
     router.push('/dashboard');
   };
   return (
@@ -36,10 +37,10 @@ const HomeNav = () => {
           </Link>
         </span>
       </div>
-      {user && !isLoading ? (
+      {session ? (
         <Button
           variant='ghost'
-          className='hover:bg-blue-cta text-[18px] hover:text-white'
+          className='text-[18px] hover:bg-blue-cta hover:text-white'
           onClick={() => handleRedirect()}
         >
           Dashboard
@@ -47,7 +48,7 @@ const HomeNav = () => {
       ) : (
         <Button
           variant='ghost'
-          className='hover:bg-blue-cta text-[18px] hover:text-white'
+          className='text-[18px] hover:bg-blue-cta hover:text-white'
           onClick={() => handleOpen()}
         >
           Sign Up

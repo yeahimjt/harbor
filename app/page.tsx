@@ -8,10 +8,17 @@ import DialogWrapper from './components/dialogs/dialogwrapper';
 import { Button } from '@/components/ui/button';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import { getAuth, signInWithCustomToken } from 'firebase/auth';
 export default function Home() {
   const { isOpen } = useDialogStore();
+  const { data: session } = useSession();
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
+
   const [user] = useAuthState(auth);
-  console.log(user);
   return (
     <>
       <main className='text-my-black'>

@@ -7,7 +7,22 @@ const db = admin.firestore();
 export const createUserDocument = functions.auth
   .user()
   .onCreate(async (user) => {
-    db.collection('users')
-      .doc(user.uid)
-      .set(JSON.parse(JSON.stringify(user)));
+    const { uid, email, displayName } = user;
+
+    // Define additional properties
+    const userData = {
+      context: null,
+      genres: [],
+      status: false,
+      // Add other necessary data
+    };
+
+    // Merge the extracted user data with additional properties
+    const userWithAdditionalData = {
+      uid,
+      email,
+      displayName,
+      ...userData,
+    };
+    db.collection('users').doc(user.uid).set(userWithAdditionalData);
   });
