@@ -13,9 +13,8 @@ import { CustomUser, UserCustom, genres } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 
-type ExtendedUser = User & UserCustom;
 const Page = () => {
-  // const [user] = useAuthState(auth);
+  const [loading, setLoading] = useState<boolean | null>(null);
 
   // Use user from local session
   const { data: session } = useSession();
@@ -24,7 +23,7 @@ const Page = () => {
   const [usersGenres, setUsersGenres] = useState(genresInitialState);
   useEffect(() => {
     async function getUserInfo() {
-      const userGrabbed = await grabUserInfo(session!.uid);
+      const userGrabbed = await grabUserInfo(session!.user.uid);
       if (userGrabbed) {
         const genresUsersClicked = genres.map((genre) => ({
           ...genre,
@@ -79,16 +78,18 @@ const Page = () => {
     if (!session || !userInfo) {
       return;
     }
-    const userDocRef = doc(firestore, 'users', session.uid);
-    console.log(userInfo);
+    const userDocRef = doc(firestore, 'users', session.user.uid);
+    setLoading(true);
     const updatedUser = await updateDoc(userDocRef, {
       genres: userInfo.genres || null,
       context: userInfo.context ? userInfo!.context : null,
       displayName: userInfo.displayName || session!.user!.displayName,
       email: userInfo.email || session!.user!.email,
     });
-    initializeRecommendations(userInfo);
+    await initializeRecommendations(userInfo, session!.accessToken);
+    setLoading(false);
   };
+  console.log(loading);
   return (
     <div className='page-container'>
       <DashNav />
@@ -253,8 +254,9 @@ const Page = () => {
                 type='submit'
                 className='bg-blue-cta hover:bg-blue-highlight'
                 onClick={(e) => handleSubmit(e)}
+                disabled={loading ? true : false}
               >
-                Update Profile
+                {loading ? 'Updating...' : 'Update'}
               </Button>
             </form>
           </div>

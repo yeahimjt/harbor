@@ -13,7 +13,7 @@ export const createUserDocument = functions.auth
     const userData = {
       context: null,
       genres: [],
-      status: false,
+      setup: false,
       // Add other necessary data
     };
 

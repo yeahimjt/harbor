@@ -51,13 +51,17 @@ const Page = () => {
     e.preventDefault();
     setUserSetupCompleted(true);
     userStatusUpdate(userInfo!);
-    // initializeRecommendations(userInfo);
+    initializeRecommendations(userInfo, session!.accessToken);
   }
 
   return (
     <>
       {userSetupCompleted === false ? (
-        <Steps onSubmit={onSubmit} setUserInfo={setUserInfo} />
+        <Steps
+          onSubmit={onSubmit}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
       ) : (
         <Content />
       )}

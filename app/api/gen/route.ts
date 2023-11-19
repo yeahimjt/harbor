@@ -1,9 +1,22 @@
 import { firestore } from '@/app/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 
+interface Song {
+  title: string;
+  artist: string;
+}
+
+interface OpenAIResponse {
+  songs: Song[];
+  playlists: {
+    [playlistName: string]: Song[];
+  };
+}
+
 export async function POST(req: Request) {
-  const { prompt, user_id } = await req.json();
+  const { prompt, user_id, access_token } = await req.json();
 
   // Create new open ai
   const client = new OpenAI({
@@ -23,30 +36,34 @@ export async function POST(req: Request) {
       { role: 'user', content: prompt },
     ],
   });
-  console.log(response.choices[0].message.content);
-  if (!response || response.choices.length !== 0) {
-    return new Response('failed');
+  if (!response || !response.choices[0].message.content) {
+    return new Response('failed, no response returned');
   }
-  const content = response.choices[0]?.message?.content;
-  const contentObject = content as
-    | { songs?: any[]; playlists?: any[] }
-    | undefined;
-  if (contentObject) {
+  const openAIResponse: OpenAIResponse = JSON.parse(
+    response.choices[0]?.message?.content
+  );
+  console.log(openAIResponse);
+  if (openAIResponse) {
     const userDocRef = doc(firestore, 'users', user_id);
-    const updatedDoc = await updateDoc(userDocRef, {
-      songs: contentObject.songs ?? [],
-      playlists: contentObject.playlists ?? [],
+    await updateDoc(userDocRef, {
+      songs: openAIResponse.songs ?? [],
+      playlists: openAIResponse.playlists ?? [],
     });
-    console.log('updated');
-    return new Response('success');
-  } else if (typeof content === 'string') {
-    // Handle the case where content is a string
-    console.warn('Unexpected content type: string');
-    return new Response('failed');
+    return NextResponse.json(
+      {
+        songs: openAIResponse.songs,
+        playlists: openAIResponse.playlists,
+      },
+      { status: 200 }
+    );
   } else {
-    // Handle other unexpected cases
-    return new Response('failed');
+    return NextResponse.json(
+      {
+        songs: [],
+        playlistName: [{ playlistName: [] }],
+      },
+      { status: 400 }
+    );
   }
-
   // return new Response(response.choices[0].message.content);
 }

@@ -90,34 +90,63 @@ export async function grabUserInfo(id: string) {
   }
 }
 
-export async function initializeRecommendations(userInfo: CustomUser | null) {
+export async function initializeRecommendations(
+  userInfo: CustomUser | null,
+  access_token: string
+) {
   // User info can never be null, but check anyways
   if (!userInfo) {
     console.log('User sent is null');
     return;
   }
-  const prompt = `Generate 5 songs and 1 playlists. The user has said they enjoy these genres: ${userInfo.genres}. If the array is empty that means they did not enter anything and you should not worry about what you recommend to them as they should generally like anything. If the array is not empty they entered genres they prefer for you to recommend. Here is more context that the user has provided for you to help you for your recommendations: (${userInfo.context}). If no context is present then you should not worry about it. In all cases never just recommend music from a particular artist unless they specify it!. Always try and include other artists that are similar to the genre/context that the users provides. Please return the songs in JSON format: {title,artist} and playlists as {playlistName: [{title,artist},{title,artist}]}. Title is the title of the song artist is the artist of the song.`;
+  const prompt = `Generate 5 songs and 1 playlists. The user has said they enjoy these genres: ${userInfo.genres}. If the array is empty that means they did not enter anything and you should not worry about what you recommend to them as they should generally like anything. If the array is not empty they entered genres they prefer for you to recommend. Here is more context that the user has provided for you to help you for your recommendations: (${userInfo.context}). If no context is present then you should not worry about it. In all cases never just recommend music from a particular artist unless they specify it!. Always try and include other artists that are similar to the genre/context that the users provides. Please return the songs in JSON format: {title,artist} and playlists in JSON format: {playlist: [{playlistName: string, tracks:[{title, artist}, {title,artist}]}]}. Always generate at least 5 songs for the playlists. Title is the title of the song artist is the artist of the song.`;
 
-  generateBio(prompt, userInfo.uid);
+  generateBio(prompt, userInfo.uid, access_token);
 }
 
-const generateBio = async (prompt: string, id: string) => {
-  const response = await fetch('/api/gen', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      prompt,
-      user_id: id,
-    }),
-  });
+const generateBio = async (
+  prompt: string,
+  id: string,
+  access_token: string
+) => {
+  try {
+    const response = await fetch('/api/gen', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
+        user_id: id,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status :${response.status}`);
+    }
+    const responseData = await response.json();
+    console.log(responseData);
+    if (responseData && responseData.songs && responseData.playlists) {
+      const spotifyResponse = await fetch('/api/spotify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          songs: responseData.songs,
+          playlists: responseData.playlists,
+          access_token,
+          user_id: id,
+        }),
+      });
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
+      if (!spotifyResponse.ok) {
+        throw new Error(`HTTP error! Status :${response.status}`);
+      }
+      return true;
+    } else {
+      console.error('Invalid response data from /api/gen');
+    }
+  } catch (error: any) {
+    console.error(`Error: `, error);
   }
-
-  let answer = await response.json();
-
-  console.log(answer);
 };

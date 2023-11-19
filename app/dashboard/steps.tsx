@@ -11,13 +11,12 @@ import { grabUserInfo } from '@/lib/utils/index';
 interface StepsProps {
   onSubmit: (e: React.FormEvent) => void;
   setUserInfo: Dispatch<SetStateAction<CustomUser | null>>;
+  userInfo: CustomUser | null;
 }
 
-const Steps: React.FC<StepsProps> = ({ onSubmit, setUserInfo }) => {
+const Steps: React.FC<StepsProps> = ({ onSubmit, userInfo, setUserInfo }) => {
   const genresInitialState = genres;
   const [usersGenres, setUsersGenres] = useState(genresInitialState);
-  const [user] = useAuthState(auth);
-  //   const [userInfo, setUserInfo] = useState<CustomUser | null>(null);
 
   const removeGenre = (targetGenre: string) => {
     const updatedGenres = usersGenres.map((genre) =>
@@ -54,6 +53,7 @@ const Steps: React.FC<StepsProps> = ({ onSubmit, setUserInfo }) => {
       return null;
     });
   };
+  console.log(userInfo);
   return (
     <div className='mx-auto flex h-screen max-w-[640px] items-center justify-center'>
       <section className='w-full space-y-8 text-my-dark-gray'>
@@ -71,7 +71,7 @@ const Steps: React.FC<StepsProps> = ({ onSubmit, setUserInfo }) => {
           <section className='space-y-2'>
             <label>Full Name</label>
             <Input
-              placeholder={user?.displayName || 'Enter First and Last name'}
+              placeholder={userInfo?.displayName || 'Enter First and Last name'}
               onChange={(e) =>
                 setUserInfo((prevUserInfo) => {
                   if (prevUserInfo) {
@@ -132,7 +132,7 @@ const Steps: React.FC<StepsProps> = ({ onSubmit, setUserInfo }) => {
               Provide context you wish streaming services knew about you
             </label>
             <Textarea
-              placeholder='When I feel like I need to boss up I usually listen to artists with a similar sound to Westside Gunn, and Conway the Machine. When I feel like I need to sit with my thoughts to relax, I enjoy hearing music that is spacey. I do not like opera music!'
+              placeholder='Example: I love artists who have a similar sound to Kendrick Lamar, artists who have great insight in their music.'
               onChange={(e) =>
                 setUserInfo((prevUserInfo) => {
                   if (prevUserInfo) {

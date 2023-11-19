@@ -53,4 +53,4 @@ export interface CustomUser {
 
 // Api related constants
 
-export const spotifyBaseUrl = 'https://api.spotify.com/v1/me';
+export const spotifyBaseUrl = 'https://api.spotify.com/v1/';
