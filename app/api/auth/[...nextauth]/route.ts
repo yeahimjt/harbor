@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
 
-export const authOptions = {
+const authOptions = {
   providers: [
     SpotifyProvider({
       clientId: String(process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID),
@@ -106,8 +106,8 @@ export const authOptions = {
     },
   },
 };
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export default NextAuth(authOptions);
+
 async function refreshAccessToken(token: any) {
   // Implement your logic to refresh the Spotify access token
   // This function should return an updated token object
