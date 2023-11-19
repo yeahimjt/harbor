@@ -205,7 +205,7 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST, authOptions };
+export { handler as GET, handler as POST };
 
 async function refreshAccessToken(token: any) {
   // Implement your logic to refresh the Spotify access token
