@@ -111,7 +111,7 @@ const handler = NextAuth({
       // You can customize additional options here, if needed
     }),
   ],
-  secret: process.env.JWT_SECRET,
+  secret: String(process.env.NEXTAUTH_SECRET),
 
   callbacks: {
     async jwt({ token, account }: any) {
