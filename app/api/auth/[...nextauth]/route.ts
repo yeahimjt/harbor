@@ -13,7 +13,7 @@ export const authOptions = {
       // You can customize additional options here, if needed
     }),
   ],
-  secret: 'SECRETKEY',
+  secret: process.env.JWT_SECRET,
 
   callbacks: {
     async jwt({ token, account }: any) {
