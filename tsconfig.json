@@ -31,5 +31,5 @@
     "app/api/generate.js",
     "app/api/auth/[...nextauth]/route.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "functions"]
 }
