@@ -25,7 +25,8 @@ export async function GET(req: Request, res: Response) {
   // Change this to be the base of vercel app
   params.append(
     'redirect_uri',
-    'https://localhost:3000/api/auth/callback/spotify'
+    String(process.env.NEXTAUTH_URL)
+    // 'https://localhost:3000/api/auth/callback/spotify'
   );
   params.append('grant_type', 'client_credentials');
   console.log('here!');
