@@ -69,7 +69,7 @@ const Steps: React.FC<StepsProps> = ({ onSubmit, userInfo, setUserInfo }) => {
 
         <form className='space-y-8' onSubmit={(e) => onSubmit(e)}>
           <section className='space-y-2'>
-            <label>Full Name</label>
+            <label>Display Name</label>
             <Input
               placeholder={userInfo?.displayName || 'Enter First and Last name'}
               onChange={(e) =>

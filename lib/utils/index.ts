@@ -90,6 +90,27 @@ export async function grabUserInfo(id: string) {
   }
 }
 
+export async function grabUserListenNow(id: string) {
+  try {
+    if (!id) {
+      console.log('invalid id');
+      return;
+    }
+
+    // Get user songs/playlists
+    const userDocRef = doc(firestore, 'users', id);
+    const userDocSnap = await getDoc(userDocRef);
+    if (userDocSnap.exists()) {
+      return {
+        playlists: userDocSnap.data().playlists || null,
+        songs: userDocSnap.data().songs || null,
+      };
+    }
+  } catch (error) {
+    console.error('Error grabbing user info:', error);
+  }
+}
+
 export async function initializeRecommendations(
   userInfo: CustomUser | null,
   access_token: string

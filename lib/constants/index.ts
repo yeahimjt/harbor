@@ -21,22 +21,6 @@ export interface UserCustom {
   setup: boolean;
 }
 
-// Building my own custom User type similar to firebase but with added custom properties
-
-type CustomClaims = Record<string, any>;
-
-type Metadata = {
-  creationTime: string;
-  lastSignInTime: string;
-};
-
-type ProviderData = {
-  displayName: string;
-  email: string;
-  photoURL: string;
-  providerId: string;
-};
-
 export interface CustomUser {
   context: string | null;
   displayName: string;
@@ -46,10 +30,6 @@ export interface CustomUser {
   setup: boolean;
   uid: string;
 }
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////
 
 // Api related constants
 

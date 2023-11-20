@@ -106,7 +106,7 @@ const Page = () => {
             <hr />
             <form className='space-y-10'>
               <section className='space-y-2'>
-                <label>Full Name</label>
+                <label>Display Name</label>
                 <Input
                   placeholder={session.user?.displayName || ''}
                   onChange={(e) =>

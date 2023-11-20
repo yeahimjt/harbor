@@ -19,3 +19,13 @@ export const useDialogStore = create<DialogStore>((set) => ({
   openDialog: () => set({ isOpen: true }),
   closeDialog: () => set({ isOpen: false }),
 }));
+
+interface PlayerStore {
+  uris: string | null;
+  setUris: (value: string) => void;
+}
+
+export const usePlayerStore = create<PlayerStore>((set) => ({
+  uris: null,
+  setUris: (value: string | null) => set({ uris: value }),
+}));

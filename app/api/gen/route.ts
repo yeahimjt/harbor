@@ -44,11 +44,15 @@ export async function POST(req: Request) {
   );
   console.log(openAIResponse);
   if (openAIResponse) {
-    const userDocRef = doc(firestore, 'users', user_id);
-    await updateDoc(userDocRef, {
-      songs: openAIResponse.songs ?? [],
-      playlists: openAIResponse.playlists ?? [],
-    });
+    // Add the responses for songs and playlists to users firebase database
+    // ** Not being used because of the uneccessary duplicate entries
+
+    // const userDocRef = doc(firestore, 'users', user_id);
+    // await updateDoc(userDocRef, {
+    //   songs: openAIResponse.songs ?? [],
+    //   playlists: openAIResponse.playlists ?? [],
+    // });
+
     return NextResponse.json(
       {
         songs: openAIResponse.songs,

@@ -86,11 +86,11 @@ img {
 }
 
 .page-container {
-  @apply flex w-full;
+  @apply flex h-full w-full overflow-y-auto;
 }
 
 .page-section {
-  @apply flex w-full flex-col gap-[60px] px-16 py-12;
+  @apply flex w-full flex-col gap-[60px]  px-16 py-12;
 }
 
 .page-section h1 {
@@ -99,4 +99,21 @@ img {
 
 .page-section p {
   @apply text-my-dark-gray;
+}
+
+.img-hover-zoom {
+  height: 250px; /* [1.1] Set it as per your need */
+  overflow: hidden; /* [1.2] Hide the overflowing of child elements */
+  position: relative;
+  background-color: black;
+}
+
+/* [2] Transition property for smooth transformation of images */
+.img-hover-zoom img {
+  transition: transform 0.5s ease;
+}
+
+/* [3] Finally, transforming the image when container gets hovered */
+.img-hover-zoom:hover img {
+  transform: scale(1.2);
 }
