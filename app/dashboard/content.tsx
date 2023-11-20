@@ -8,6 +8,10 @@ import PlayButton from '../components/play';
 import Player from '../components/player';
 import { usePlayerStore } from '../states';
 
+const loaderProp = (src: string) => {
+  return src;
+};
+
 interface ListenNowState {
   songs: SpotifyApi.TrackSearchResponse[];
   playlists: {

@@ -82,7 +82,7 @@ export async function POST(req: Request) {
     });
 
     const image_url = response.data[0].url;
-
+    console.log(image_url);
     // Update playlist array in db with all of its spotify information
     const userPlaylistDocRef = doc(firestore, 'users', user_id);
     console.log(playlists[0]?.playlistName);
