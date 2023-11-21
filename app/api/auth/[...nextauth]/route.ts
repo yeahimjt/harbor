@@ -1,3 +1,4 @@
+import { spotifyBaseUrl } from '@/lib/constants';
 import { initAdmin } from '@/lib/utils/firebase';
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
@@ -34,11 +35,18 @@ const handler = NextAuth({
       return await refreshAccessToken(token);
     },
     async session({ session, token, user }: any) {
-      // Send properties to the client, like an access_token from a provider
-      // return session;
+      // Send properties to the client
+
       session.accessToken = token.accessToken;
-      console.log('inside session: ', session.accessToken);
-      console.log(user);
+
+      // Query users spotify profile
+      var spotifyResponse = await fetch('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: `Bearer ${token.accessToken}`,
+        },
+      });
+      const spotifyUserProfile = await spotifyResponse.json();
+
       // Add custom logic to link Spotify authentication with Firebase
       if (session.user) {
         try {
@@ -46,26 +54,25 @@ const handler = NextAuth({
           const adminAuth = adminApp.auth();
           // Assuming 'firebase' is your Firebase Admin SDK instance
           const user = await adminAuth.getUserByEmail(session.user.email);
-          console.log('user is: ', user);
+
           // Merge the NextAuth user and Firebase user data
           if (user) {
             session.user = {
               ...user,
+              image: spotifyUserProfile.images[0],
+              uri: spotifyUserProfile.uri,
+              product: spotifyUserProfile.product,
               firebaseUserId: user.uid,
-              // Add other necessary data
             };
           } else {
-            console.log('creating new user:');
             const newUser = await adminAuth.createUser({
               email: session.user.email,
               displayName: session.displayName.name,
-              // Add other necessary data
             });
             session.user = {
               ...newUser,
 
               firebaseUserId: newUser.uid,
-              // Add other necessary data
             };
           }
         } catch (error: any) {
@@ -110,14 +117,12 @@ async function refreshAccessToken(token: any) {
   // Implement your logic to refresh the Spotify access token
   // This function should return an updated token object
   // ...
-  console.log(token);
   const url = 'https://accounts.spotify.com/api/token';
   const authString = Buffer.from(
     `${String(process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID)}:${String(
       process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
     )}`
   ).toString('base64');
-  console.log(token);
   const payload = {
     method: 'POST',
     headers: {
@@ -132,8 +137,8 @@ async function refreshAccessToken(token: any) {
 
   const body = await fetch(url, payload);
   const response = await body.json();
-  console.log('this is my response', response);
   if (response) {
+    console.log(response);
     const { access_token, token_type, expires_in, scope } = response;
     token.accessToken = access_token;
     token.accessTokenExpires = expires_in;

@@ -7,11 +7,18 @@ declare module 'next-auth' {
     genres: string[] | null;
     uid: string;
     firebaseUserId: string;
+
     user: {
       uid: string;
       firebaseUserId: string;
       displayName: string;
       email: string;
+      image: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      product: string;
     };
     // Add any other properties you may need
   }

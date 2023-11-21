@@ -12,6 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CustomUser, UserCustom, genres } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 const Page = () => {
   const [loading, setLoading] = useState<boolean | null>(null);
@@ -104,6 +105,14 @@ const Page = () => {
               </p>
             </span>
             <hr />
+            <Image
+              className='rounded-full'
+              src={session.user.image.url}
+              width={session.user.image.width}
+              height={session.user.image.height}
+              alt=''
+            />
+            <h2>Spotify Subscription Tier: {session.user.product}</h2>
             <form className='space-y-10'>
               <section className='space-y-2'>
                 <label>Display Name</label>

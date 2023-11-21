@@ -2,19 +2,14 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React from 'react';
-import { useDialogStore } from '../states';
-import { auth } from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 const HomeNav = () => {
-  const { openDialog, setType, type } = useDialogStore();
   // const [user, isLoading] = useAuthState(auth);
   const { data: session } = useSession();
   const router = useRouter();
   const handleOpen = () => {
-    setType('auth');
-    openDialog();
+    router.push('/api/auth/signin');
   };
   const handleRedirect = () => {
     router.push('/dashboard');

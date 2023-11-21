@@ -81,25 +81,34 @@ export async function POST(req: Request) {
       n: 1,
     });
 
-    const image_url = response.data[0].url;
-    console.log(image_url);
-    // Update playlist array in db with all of its spotify information
-    const userPlaylistDocRef = doc(firestore, 'users', user_id);
-    console.log(playlists[0]?.playlistName);
-    const updatedPlaylist = {
-      playlistName:
-        playlists && playlists[0]?.playlistName
-          ? playlists[0].playlistName
-          : 'DefaultPlaylist',
-      playlistCover: image_url,
-      ...playlistSongDataArray.filter(Boolean),
-    };
-    console.log(updatedPlaylist);
-    await updateDoc(userPlaylistDocRef, {
-      playlists: arrayUnion(updatedPlaylist),
-    });
+    if (
+      response &&
+      response.data &&
+      response.data.length > 0 &&
+      response.data[0].url
+    ) {
+      const image_url = response.data[0].url;
+      console.log(image_url);
+      // Update playlist array in db with all of its spotify information
+      const userPlaylistDocRef = doc(firestore, 'users', user_id);
+      console.log(playlists[0]?.playlistName);
+      const updatedPlaylist = {
+        playlistName:
+          playlists && playlists[0]?.playlistName
+            ? playlists[0].playlistName
+            : 'DefaultPlaylist',
+        playlistCover: image_url,
+        ...playlistSongDataArray.filter(Boolean),
+      };
+      console.log(updatedPlaylist);
+      await updateDoc(userPlaylistDocRef, {
+        playlists: arrayUnion(updatedPlaylist),
+      });
 
-    return NextResponse.json({ status: 200 });
+      return NextResponse.json({ status: 200 });
+    } else {
+      return NextResponse.json({ status: 404 });
+    }
   } catch (error) {
     console.error('Error fetching song data:', error);
     return NextResponse.json({ status: 404 });

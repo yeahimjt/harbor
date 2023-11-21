@@ -86,26 +86,23 @@ img {
 }
 
 .page-container {
-  @apply flex h-full w-full overflow-y-auto;
+  @apply flex h-full max-h-screen w-screen overflow-hidden;
 }
 
 .page-section {
-  @apply flex w-full flex-col gap-[60px]  px-16 py-12;
+  @apply flex w-full flex-col gap-[60px]   px-16 py-12;
 }
 
 .page-section h1 {
-  @apply text-[25px] font-semibold text-my-black;
+  @apply text-[39px] font-semibold text-my-black;
 }
 
 .page-section p {
-  @apply text-my-dark-gray;
+  @apply text-[17px] text-my-dark-gray;
 }
 
 .img-hover-zoom {
-  height: 250px; /* [1.1] Set it as per your need */
-  overflow: hidden; /* [1.2] Hide the overflowing of child elements */
-  position: relative;
-  background-color: black;
+  @apply relative h-[200px] overflow-hidden lg:h-[250px];
 }
 
 /* [2] Transition property for smooth transformation of images */
