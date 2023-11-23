@@ -27,29 +27,6 @@ const AlbumFlow = () => {
     }
   }, [session]);
 
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  const handleResize = () => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Add event listener when component mounts
-      window.addEventListener('resize', handleResize);
-      // Remove event listener when component unmounts
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
   return (
     <section className='flex flex-wrap gap-4'>
       {limitedData ? (
@@ -62,8 +39,8 @@ const AlbumFlow = () => {
               <Image
                 className='min-w-[250px]'
                 src={album.images[0].url}
-                height={windowSize.height > 1024 ? 300 : 200}
-                width={windowSize.width > 1024 ? 300 : 200}
+                height={300}
+                width={300}
                 alt=''
               />
             </div>
