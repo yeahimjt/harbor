@@ -5,32 +5,33 @@ import { useSession } from 'next-auth/react';
 interface playButtonProps {
   trackUri: string;
   redirect: string;
+  size: number;
 }
-const PlayButton = ({ trackUri, redirect }: playButtonProps) => {
+const PlayButton = ({ trackUri, redirect, size }: playButtonProps) => {
   console.log(trackUri);
   const { data: session } = useSession();
   const { setUris } = usePlayerStore();
   if (session?.user.product === 'free') {
     return (
-      <div className='flex h-[20px] items-end justify-end '>
+      <div className={`flex  items-end justify-end `}>
         <a
           target='_blank'
           rel='noreferrer'
           className='flex justify-end rounded-full bg-my-light-gray p-2'
           href={redirect}
         >
-          <Play />
+          <Play size={size} />
         </a>
       </div>
     );
   }
   return (
-    <div className='flex h-[20px] items-end justify-end '>
+    <div className={`flex items-end justify-end `}>
       <button
         className='flex justify-end rounded-full bg-my-light-gray p-2'
         onClick={() => setUris(trackUri)}
       >
-        <Play />
+        <Play className='h-[200px]' />
       </button>
     </div>
   );

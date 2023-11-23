@@ -2,6 +2,8 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import Image from 'next/image';
 import React from 'react';
 import PlayButton from '../play';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 interface ContentState {
   songs: SpotifyApi.TrackSearchResponse[];
@@ -15,13 +17,15 @@ const SongOverflow = ({ songs }: ContentState) => {
           songs.map((song: SpotifyApi.TrackSearchResponse, index: number) => (
             <section className='h-[380px] w-[250px] space-y-2' key={index}>
               <div className='img-hover-zoom cursor-pointer flex-wrap lg:flex-nowrap'>
-                <Image
-                  className='min-w-[250px]'
-                  src={song.tracks.items[0].album.images[0].url}
-                  height={300}
-                  width={300}
-                  alt=''
-                />
+                <Link href={`/dashboard/songs/${song.tracks.items[0].id}`}>
+                  <Image
+                    className='min-w-[250px]'
+                    src={song.tracks.items[0].album.images[0].url}
+                    height={300}
+                    width={300}
+                    alt=''
+                  />
+                </Link>
               </div>
               <h2 className='h-[24px] truncate'>{song.tracks.items[0].name}</h2>
               <span>
@@ -30,6 +34,7 @@ const SongOverflow = ({ songs }: ContentState) => {
                 </h3>
               </span>
               <PlayButton
+                size={20}
                 redirect={song.tracks.items[0].external_urls.spotify}
                 trackUri={song.tracks.items[0].uri}
               />

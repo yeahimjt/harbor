@@ -9,7 +9,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { CustomUser } from '../constants';
+import { CustomUser, spotifyBaseUrl } from '../constants';
 
 export async function checkUserStatus(id: string) {
   try {
@@ -171,3 +171,23 @@ const generateBio = async (
     console.error(`Error: `, error);
   }
 };
+
+export async function grabSongData(id: string, access_token: string) {
+  if (!id) {
+    console.error('No id provided!');
+    return null;
+  }
+  try {
+    const response = await fetch(`${spotifyBaseUrl}tracks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error: any) {
+    console.error('Error grabbing song data: ', error);
+    return null;
+  }
+}

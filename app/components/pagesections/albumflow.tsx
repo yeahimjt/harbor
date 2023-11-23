@@ -54,7 +54,7 @@ const AlbumFlow = () => {
       {limitedData ? (
         limitedData?.albums.items.map((album: any, index: number) => (
           <section
-            className='h-[280px] w-[200px] space-y-2 lg:h-[380px] lg:w-[250px]'
+            className='h-[240px] w-[200px] space-y-2 lg:h-[300px] lg:w-[250px]'
             key={index}
           >
             <div className='img-hover-zoom cursor-pointer flex-wrap lg:flex-nowrap'>

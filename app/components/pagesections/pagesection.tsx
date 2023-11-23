@@ -16,9 +16,16 @@ interface pageSectionProps {
   title: string;
   subtitle: string;
   content?: ContentState;
+  information?: string;
 }
 
-const PageSection = ({ type, title, subtitle, content }: pageSectionProps) => {
+const PageSection = ({
+  type,
+  title,
+  subtitle,
+  content,
+  information,
+}: pageSectionProps) => {
   return (
     <>
       <section className='space-y-4'>

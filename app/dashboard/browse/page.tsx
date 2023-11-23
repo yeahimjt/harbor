@@ -10,7 +10,7 @@ import Playlists from '@/public/icons/playlists.svg';
 import { spotifyBaseUrl } from '@/lib/constants';
 import { useSession } from 'next-auth/react';
 import PageTitle from '@/app/components/pagesections/pagetitle';
-import SubSection from '@/app/components/pagesections/subtitle';
+import SubSection from '@/app/components/pagesections/subsection';
 import PlaylistsFlow from '@/app/components/pagesections/playlistflow';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import AlbumFlow from '@/app/components/pagesections/albumflow';

@@ -13,6 +13,7 @@ import {
   ListMusicIcon,
   Music,
   Radio,
+  Sparkles,
 } from 'lucide-react';
 import {
   Cloud,
@@ -65,6 +66,13 @@ const DashNav = () => {
 
         <h2 className='pt-4 text-[18px] font-medium text-my-black'>Discover</h2>
         <Link
+          href='/dashboard/generate'
+          className='flex w-full gap-[10px] p-4 hover:bg-slate-100'
+        >
+          <Sparkles />
+          Generate
+        </Link>
+        <Link
           href='/dashboard'
           className='flex w-full gap-[10px] p-4 hover:bg-slate-100'
         >
@@ -87,7 +95,7 @@ const DashNav = () => {
         </Link>
       </section>
       <section className='space-y-2'>
-        <h2 className='text-[18px] font-medium text-my-black'>Library</h2>
+        <h2 className='text-[18px] font-medium text-my-black'>Your Library</h2>
         <Link
           href='/dashboard/playlists'
           className='flex w-full gap-[10px] p-4 hover:bg-slate-100'

@@ -11,7 +11,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import PageSection from '../components/pagesections/pagesection';
 import { Separator } from '@/components/ui/separator';
 import PageTitle from '../components/pagesections/pagetitle';
-import SubSection from '../components/pagesections/subtitle';
+import SubSection from '../components/pagesections/subsection';
 import ListenNow from '../components/pagesections/songoverflow';
 import SongOverflow from '../components/pagesections/songoverflow';
 import PlaylistOverflow from '../components/pagesections/playlistoverflow';
@@ -46,7 +46,6 @@ const Content = () => {
       handleGrabUaserListenNow();
     }
   }, [session]);
-  console.log(listenNow);
   return (
     <div className='page-container overflow-x-hidden'>
       <DashNav />
@@ -56,6 +55,7 @@ const Content = () => {
           <SubSection
             redirect='/dashboard/songs'
             sub_title='Your Generated Tracks'
+            information='These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
           >
             {listenNow ? (
               <SongOverflow songs={listenNow.songs} />
