@@ -43,11 +43,11 @@ const AlbumFlow = () => {
     if (typeof window !== 'undefined') {
       // Add event listener when component mounts
       window.addEventListener('resize', handleResize);
+      // Remove event listener when component unmounts
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }
-    // Remove event listener when component unmounts
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   return (
