@@ -8,13 +8,12 @@ import PlayButton from '../components/play';
 import Player from '../components/player';
 import { usePlayerStore } from '../states';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import PageSection from '../components/pagesections/pagesection';
 import { Separator } from '@/components/ui/separator';
 import PageTitle from '../components/pagesections/pagetitle';
 import SubSection from '../components/pagesections/subsection';
 import ListenNow from '../components/pagesections/songoverflow';
 import SongOverflow from '../components/pagesections/songoverflow';
-import PlaylistOverflow from '../components/pagesections/playlistoverflow';
+import MediaWrapper from '../components/media/wrapper';
 
 const loaderProp = (src: string) => {
   return src;
@@ -52,7 +51,19 @@ const Content = () => {
       <section className='w-full overflow-x-hidden'>
         <div className='page-section'>
           <PageTitle title='Listen Now' />
-          <SubSection
+          {listenNow && (
+            <MediaWrapper
+              type={'track'}
+              redirect={'/dashboard/songs'}
+              title={'Your Generated Tracks'}
+              information={
+                'These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
+              }
+              media={listenNow.songs}
+              overflow={true}
+            />
+          )}
+          {/* <SubSection
             redirect='/dashboard/songs'
             sub_title='Your Generated Tracks'
             information='These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
@@ -62,8 +73,17 @@ const Content = () => {
             ) : (
               <div className='h-[333px]'></div>
             )}
-          </SubSection>
-          <SubSection
+          </SubSection> */}
+          {listenNow && (
+            <MediaWrapper
+              type={'playlist-generated'}
+              redirect={'/dashboard/playlists'}
+              title={'Your Generated Playlists'}
+              media={listenNow.playlists}
+              overflow={true}
+            />
+          )}
+          {/* <SubSection
             redirect='/dashboard/playlists'
             sub_title='Your Generated Playlists'
           >
@@ -72,7 +92,7 @@ const Content = () => {
             ) : (
               <div className='h-[333px]'></div>
             )}
-          </SubSection>
+          </SubSection> */}
         </div>
         {uris && (
           <Player access_token={session!.accessToken} track_uri={uris} />

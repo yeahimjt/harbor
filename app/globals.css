@@ -101,8 +101,12 @@ img {
   @apply text-[17px] text-my-dark-gray;
 }
 
+.media-card {
+  @apply h-[380px]  min-w-[300px] max-w-[300px] space-y-2;
+}
+
 .img-hover-zoom {
-  @apply relative h-[200px] overflow-hidden lg:h-[250px];
+  @apply relative h-[300px]  cursor-pointer flex-wrap overflow-hidden lg:flex-nowrap;
 }
 
 /* [2] Transition property for smooth transformation of images */

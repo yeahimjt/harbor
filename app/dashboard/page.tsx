@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
 import {
   grabUserInfo,
   initializeRecommendations,
@@ -10,9 +9,6 @@ import Content from './content';
 import Steps from './steps';
 import { CustomUser } from '@/lib/constants';
 import { useSession } from 'next-auth/react';
-import SpotifyPlayer from 'react-spotify-web-playback';
-import Player from '../components/player';
-import { usePlayerStore } from '../states';
 const Page = () => {
   // Grab user from stored session
   // const [user] = useAuthState(auth);

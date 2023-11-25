@@ -191,3 +191,65 @@ export async function grabSongData(id: string, access_token: string) {
     return null;
   }
 }
+
+export async function grabSimilarSongData(seed: string, access_token: string) {
+  if (!seed) {
+    console.error('Missing seed');
+    return null;
+  }
+  try {
+    const response = await fetch(
+      `${spotifyBaseUrl}recommendations?seed_tracks=${seed}&limit=${15}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    const responseData = await response.json();
+    return responseData;
+  } catch (error: any) {
+    console.error('Error grabbing similar song data: ', error);
+  }
+}
+
+export async function grabAlbumData(id: string, access_token: string) {
+  if (!id) {
+    console.error('No id provided!');
+    return null;
+  }
+  try {
+    const response = await fetch(`${spotifyBaseUrl}albums/${id}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error: any) {
+    console.error('Error grabbing album data: ', error);
+    return null;
+  }
+}
+
+export async function grabSimilarAlbumData(seed: string, access_token: string) {
+  if (!seed) {
+    console.error('Missing seed');
+    return null;
+  }
+  try {
+    const response = await fetch(
+      `${spotifyBaseUrl}recommendations?seed_tracks=${seed}&limit=${15}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    const responseData = await response.json();
+    return responseData;
+  } catch (error: any) {
+    console.error('Error grabbing similar song data: ', error);
+  }
+}
