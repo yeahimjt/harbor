@@ -9,7 +9,7 @@ const HomeNav = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const handleOpen = () => {
-    router.push('/api/auth/signin');
+    router.push('/signIn');
   };
   const handleRedirect = () => {
     router.push('/dashboard');

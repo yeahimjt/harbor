@@ -13,6 +13,9 @@ const handler = NextAuth({
         'https://accounts.spotify.com/authorize?scope=user-read-email user-library-read user-modify-playback-state streaming user-read-currently-playing user-read-playback-state user-read-private',
     }),
   ],
+  pages: {
+    signIn: '/signIn',
+  },
   secret: String(process.env.NEXTAUTH_SECRET),
   callbacks: {
     async jwt({ token, account }: any) {
