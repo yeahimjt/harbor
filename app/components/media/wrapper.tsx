@@ -13,7 +13,9 @@ interface MediaWrapperProps {
   type:
     | 'track'
     | 'album-spotify'
+    | 'artists-albums-spotify'
     | 'playlist-generated'
+    | 'playlist-user'
     | 'playlist'
     | 'playlist-spotify';
   redirect?: string;
@@ -27,8 +29,10 @@ interface MediaWrapperProps {
       }[]
     | SpotifyApi.ListOfFeaturedPlaylistsResponse
     | SpotifyApi.ListOfNewReleasesResponse
+    | SpotifyApi.ListOfCurrentUsersPlaylistsResponse
     | SpotifyApi.TrackSearchResponse[]
     | SpotifyApi.TrackObjectFull
+    | SpotifyApi.ArtistsAlbumsResponse
     | null;
   overflow: boolean;
 }

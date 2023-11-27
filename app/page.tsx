@@ -29,7 +29,10 @@ export default function Home() {
             From Music Genres{' '}
             <span className='text-blue-highlight'>You Enjoy</span>
           </h1>
-          <h2>Explore recommended music tailored to your specific taste</h2>
+          <h2>
+            Generate playlists with direct context, infinitely explore related
+            music
+          </h2>
           <Button
             variant={'default'}
             className='z-10 rounded-[10px] bg-blue-cta px-8 py-2 text-[14px] text-white hover:bg-blue-highlight'

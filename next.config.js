@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['oaidalleapiprodscus.blob.core.windows.net'],
+    domains: [
+      'oaidalleapiprodscus.blob.core.windows.net',
+      'firebasestorage.googleapis.com',
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -10,6 +13,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.spotifycdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.oaidalleapiprodscus.**',
       },
     ],
   },

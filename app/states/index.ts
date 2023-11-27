@@ -29,3 +29,15 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   uris: null,
   setUris: (value: string | null) => set({ uris: value }),
 }));
+
+interface InitialGenerationStore {
+  loading: boolean;
+  setLoading: (value: boolean) => void;
+}
+
+export const useInitialGenerationStore = create<InitialGenerationStore>(
+  (set) => ({
+    loading: false,
+    setLoading: (value: boolean) => set({ loading: value }),
+  })
+);

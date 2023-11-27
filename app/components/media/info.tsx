@@ -12,8 +12,13 @@ import {
 import { MoreVertical, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 interface MediaInfoProps {
-  type: 'album' | 'track' | 'playlist';
+  type: 'album' | 'track' | 'playlist' | 'playlist-generated';
   media:
+    | {
+        playlistName: string;
+        playlistCover: string;
+        tracks: { tracks: SpotifyApi.TrackSearchResponse }[];
+      }
     | SpotifyApi.TrackObjectFull
     | SpotifyApi.AlbumObjectFull
     | SpotifyApi.PlaylistObjectFull;
@@ -103,24 +108,6 @@ const MediaInfo = ({ type, media }: MediaInfoProps) => {
           <div>
             <div className='flex  items-center justify-between'>
               <h2>{albumData.type}</h2>
-              <DropdownMenu>
-                <DropdownMenuTrigger className='cursor-pointer' asChild>
-                  <MoreVertical />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className='mr-4'>
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem className='flex cursor-pointer gap-2'>
-                      <ThumbsUp />
-                      Suggest More Like This
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className='flex cursor-pointer gap-2'>
-                      <ThumbsDown />
-                      Suggest Less Like This
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
             <h1>{albumData.name}</h1>
             <a
@@ -157,8 +144,69 @@ const MediaInfo = ({ type, media }: MediaInfoProps) => {
         </section>
       </section>
     );
+  } else if (type === 'playlist') {
+    const playlistData = media as SpotifyApi.PlaylistObjectFull;
+
+    return (
+      <section className='flex  gap-4 '>
+        <Image
+          src={playlistData.images[0].url || ''}
+          alt={playlistData.name || 'song image'}
+          width={300}
+          height={300}
+        />
+        <section className='flex w-full flex-col justify-between '>
+          <div>
+            <div className='flex  items-center justify-between'>
+              <h2>{playlistData.type}</h2>
+            </div>
+            <h1>{playlistData.name}</h1>
+          </div>
+          <div className='flex items-center justify-between '>
+            <div></div>
+            <PlayButton
+              size={40}
+              trackUri={playlistData.uri}
+              redirect={playlistData.external_urls.spotify}
+            />
+          </div>
+        </section>
+      </section>
+    );
+  } else if (type === 'playlist-generated') {
+    const playlistData = media as {
+      playlistName: string;
+      playlistCover: string;
+      tracks: { tracks: SpotifyApi.TrackSearchResponse }[];
+    };
+    return (
+      <section className='flex  gap-4 '>
+        <Image
+          src={playlistData.playlistCover || ''}
+          alt={playlistData.playlistName || 'song image'}
+          width={300}
+          height={300}
+        />
+        <section className='flex w-full flex-col justify-between '>
+          <div>
+            <div className='flex  items-center justify-between'>
+              <h2>playlist generated</h2>
+            </div>
+            <h1>{playlistData.playlistName}</h1>
+          </div>
+          <div className='flex items-center justify-between '>
+            <div></div>
+            {/* <PlayButton
+              size={40}
+              trackUri={playlistData.uri}
+              redirect={playlistData.external_urls.spotify}
+            /> */}
+          </div>
+        </section>
+      </section>
+    );
   }
-  return <div>MediaInfo</div>;
+  return <div>unvalid type</div>;
 };
 
 export default MediaInfo;

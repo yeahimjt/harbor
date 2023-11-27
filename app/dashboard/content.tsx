@@ -14,6 +14,7 @@ import SubSection from '../components/pagesections/subsection';
 import ListenNow from '../components/pagesections/songoverflow';
 import SongOverflow from '../components/pagesections/songoverflow';
 import MediaWrapper from '../components/media/wrapper';
+import { Button } from '@/components/ui/button';
 
 const loaderProp = (src: string) => {
   return src;
@@ -45,54 +46,40 @@ const Content = () => {
       handleGrabUaserListenNow();
     }
   }, [session]);
+  console.log(listenNow);
   return (
     <div className='page-container overflow-x-hidden'>
       <DashNav />
       <section className='w-full overflow-x-hidden'>
         <div className='page-section'>
           <PageTitle title='Listen Now' />
-          {listenNow && (
-            <MediaWrapper
-              type={'track'}
-              redirect={'/dashboard/songs'}
-              title={'Your Generated Tracks'}
-              information={
-                'These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
-              }
-              media={listenNow.songs}
-              overflow={true}
-            />
+          {listenNow && listenNow.playlists ? (
+            <>
+              {listenNow?.songs && (
+                <MediaWrapper
+                  type={'track'}
+                  title={'Your Generated Tracks'}
+                  information={
+                    'These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
+                  }
+                  media={listenNow.songs}
+                  overflow={true}
+                />
+              )}
+
+              {listenNow?.playlists && (
+                <MediaWrapper
+                  type={'playlist-generated'}
+                  redirect={'/dashboard/playlists'}
+                  title={'Your Generated Playlists'}
+                  media={listenNow.playlists}
+                  overflow={true}
+                />
+              )}
+            </>
+          ) : (
+            ''
           )}
-          {/* <SubSection
-            redirect='/dashboard/songs'
-            sub_title='Your Generated Tracks'
-            information='These tracks will be removed from this section once you have rated them. Upon rating them, your future playlists/song recommendations will be tailored based on these five tracks. New tracks will not be generated only playlists.'
-          >
-            {listenNow ? (
-              <SongOverflow songs={listenNow.songs} />
-            ) : (
-              <div className='h-[333px]'></div>
-            )}
-          </SubSection> */}
-          {listenNow && (
-            <MediaWrapper
-              type={'playlist-generated'}
-              redirect={'/dashboard/playlists'}
-              title={'Your Generated Playlists'}
-              media={listenNow.playlists}
-              overflow={true}
-            />
-          )}
-          {/* <SubSection
-            redirect='/dashboard/playlists'
-            sub_title='Your Generated Playlists'
-          >
-            {listenNow ? (
-              <PlaylistOverflow playlists={listenNow.playlists} />
-            ) : (
-              <div className='h-[333px]'></div>
-            )}
-          </SubSection> */}
         </div>
         {uris && (
           <Player access_token={session!.accessToken} track_uri={uris} />

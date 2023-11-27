@@ -1,4 +1,4 @@
-import { spotifyBaseUrl } from '@/lib/constants';
+import { spotifyBaseUrl } from '@/lib/types';
 import { initAdmin } from '@/lib/utils/firebase';
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';

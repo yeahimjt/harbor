@@ -86,13 +86,6 @@ const DashNav = () => {
           <Globe />
           Browse
         </Link>
-        <Link
-          href='/dashboard/radio'
-          className='flex w-full gap-[10px] p-4 hover:bg-slate-100'
-        >
-          <Radio />
-          Radio
-        </Link>
       </section>
       <section className='space-y-2'>
         <h2 className='text-[18px] font-medium text-my-black'>Your Library</h2>
@@ -102,13 +95,6 @@ const DashNav = () => {
         >
           <ListMusicIcon />
           Playlists
-        </Link>
-        <Link
-          href='/dashboard/history'
-          className='flex w-full gap-[10px] p-4 hover:bg-slate-100'
-        >
-          <History />
-          History
         </Link>
       </section>
 

@@ -21,14 +21,11 @@ const HomeNav = () => {
           Harbor
         </Link>
         <span className=' hidden gap-[54px] lg:flex'>
-          <Link className='text-[18px] font-medium' href='/'>
+          <p className='cursor-not-allowed text-[18px] font-medium text-my-mid-gray'>
             Subscriptions
-          </Link>
-          <Link className='text-[18px] font-medium' href='/'>
+          </p>
+          <Link className='text-[18px] font-medium' href='/faq'>
             FAQ
-          </Link>
-          <Link className='text-[18px] font-medium' href='/'>
-            Support
           </Link>
         </span>
       </div>

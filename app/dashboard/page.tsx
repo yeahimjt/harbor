@@ -7,7 +7,7 @@ import {
 } from '@/lib/utils/index';
 import Content from './content';
 import Steps from './steps';
-import { CustomUser } from '@/lib/constants';
+import { CustomUser } from '@/lib/types';
 import { useSession } from 'next-auth/react';
 const Page = () => {
   // Grab user from stored session
@@ -18,6 +18,7 @@ const Page = () => {
     null
   );
   const [userInfo, setUserInfo] = useState<CustomUser | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Check if user has setup their preferences
   useEffect(() => {
@@ -38,11 +39,18 @@ const Page = () => {
 
   // Handler for submitting (OR SKIPPING) initial step if user has not done so yet
   // Initialize their account with singles/playlists
-  function onSubmit(e: any) {
+  async function onSubmit(e: any) {
     e.preventDefault();
-    setUserSetupCompleted(true);
-    userStatusUpdate(userInfo!);
-    initializeRecommendations(userInfo, session!.accessToken);
+    setLoading(true);
+    const recommendations = await initializeRecommendations(
+      userInfo,
+      session!.accessToken
+    );
+    if (recommendations) {
+      setLoading(false);
+      setUserSetupCompleted(true);
+      userStatusUpdate(userInfo!);
+    }
   }
 
   return (
@@ -52,6 +60,7 @@ const Page = () => {
           onSubmit={onSubmit}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
+          loading={loading}
         />
       ) : (
         <>

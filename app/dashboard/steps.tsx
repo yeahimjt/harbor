@@ -2,19 +2,32 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { CustomUser, genres } from '@/lib/constants';
+import { CustomUser, genres } from '@/lib/types';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { grabUserInfo } from '@/lib/utils/index';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { InfoIcon } from 'lucide-react';
 
 interface StepsProps {
   onSubmit: (e: React.FormEvent) => void;
   setUserInfo: Dispatch<SetStateAction<CustomUser | null>>;
   userInfo: CustomUser | null;
+  loading: boolean;
 }
 
-const Steps: React.FC<StepsProps> = ({ onSubmit, userInfo, setUserInfo }) => {
+const Steps: React.FC<StepsProps> = ({
+  onSubmit,
+  userInfo,
+  setUserInfo,
+  loading,
+}) => {
   const genresInitialState = genres;
   const [usersGenres, setUsersGenres] = useState(genresInitialState);
 
@@ -165,17 +178,24 @@ const Steps: React.FC<StepsProps> = ({ onSubmit, userInfo, setUserInfo }) => {
             />
           </section>
           <span className='flex items-center justify-center gap-[20px]'>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <InfoIcon />
+                </TooltipTrigger>
+                <TooltipContent className='w-[200px]'>
+                  You do not have to set up your preferences now, you can submit
+                  even if they are empty. However your generated recommended
+                  songs and playlist will likely not be accurate to your music
+                  taste. This can be updated later.
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <button
               className='rounded-[10px] bg-blue-cta px-8 py-2 text-white hover:bg-blue-highlight'
               type='submit'
             >
-              Submit
-            </button>
-            <button
-              type='submit'
-              className='text-end underline hover:scale-[1.05]'
-            >
-              Skip this step
+              {loading ? 'Submitting...' : 'Submit'}
             </button>
           </span>
         </form>

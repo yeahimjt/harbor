@@ -4,7 +4,6 @@ import DashNav from '@/app/components/dashnav';
 import PageTitle from '@/app/components/pagesections/pagetitle';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import React, { useEffect, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { spotifyBaseUrl } from '@/lib/types';
 import MediaWrapper from '@/app/components/media/wrapper';
 import { useSession } from 'next-auth/react';
@@ -15,13 +14,13 @@ const Page = () => {
   const { data: session } = useSession();
   console.log(inView);
   const [offset, setOffset] = useState<number>(0);
-  const [topAlbums, setTopAlbums] =
-    useState<SpotifyApi.ListOfNewReleasesResponse | null>(null);
+  const [topPlaylists, setTopPlaylists] =
+    useState<SpotifyApi.ListOfFeaturedPlaylistsResponse | null>(null);
   console.log(offset);
   useEffect(() => {
     async function grabLimitedReleasedAlbum() {
       const response = await fetch(
-        spotifyBaseUrl + `browse/new-releases?limit=20&offset=${offset}`,
+        spotifyBaseUrl + `browse/featured-playlists?limit=20&offset=${offset}`,
         {
           headers: {
             Authorization: `Bearer ${session!.accessToken}`,
@@ -29,26 +28,26 @@ const Page = () => {
         }
       );
       const responseData = await response.json();
-      if (topAlbums && responseData) {
+      if (topPlaylists && responseData) {
         const combinedTopAlbums = [
-          ...topAlbums.albums.items,
-          ...responseData.albums.items,
+          ...topPlaylists.playlists.items,
+          ...responseData.playlists.items,
         ];
-        const newTopAlbums: SpotifyApi.ListOfNewReleasesResponse = {
-          ...topAlbums,
-          albums: {
-            ...topAlbums.albums,
+        const newTopPlaylists: SpotifyApi.ListOfFeaturedPlaylistsResponse = {
+          ...topPlaylists,
+          playlists: {
+            ...topPlaylists.playlists,
             items: combinedTopAlbums,
           },
         };
-        setTopAlbums(newTopAlbums);
+        setTopPlaylists(newTopPlaylists);
         setOffset(offset + 20);
       } else if (responseData) {
-        setTopAlbums(responseData);
+        setTopPlaylists(responseData);
         setOffset(offset + 20);
       }
     }
-    if (inView && session && offset < 100) {
+    if (inView && session && offset < 24) {
       console.log(' in here!');
       grabLimitedReleasedAlbum();
     }
@@ -59,16 +58,16 @@ const Page = () => {
       <ScrollArea className='w-full overflow-x-hidden'>
         <div className='page-section'>
           <PageTitle title={'Top Albums'} />
-          {topAlbums && (
+          {topPlaylists && (
             <MediaWrapper
               title=''
-              type='album-spotify'
-              media={topAlbums}
+              type='playlist-spotify'
+              media={topPlaylists}
               overflow={false}
             />
           )}
           <span ref={ref} className='h-[200px] w-full text-center'>
-            {offset < 100 ? 'Fetching more data...' : 'No more data to fetch.'}
+            {offset < 24 ? 'Fetching more data...' : 'No more data to fetch.'}
           </span>
         </div>
         <ScrollBar orientation='vertical' />

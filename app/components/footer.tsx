@@ -23,7 +23,7 @@ const Footer = () => {
         </div>
       </section>
       <section className='flex flex-col justify-between gap-[40px] lg:flex-row'>
-        <div className='flex items-start gap-[20px]'>
+        <Link className='flex items-start gap-[20px]' href='/'>
           <Image
             className='object-scale-down'
             src={'/images/icon.png'}
@@ -32,17 +32,14 @@ const Footer = () => {
             alt='harbor logo'
           />
           <h1 className='text-[25px] font-bold'>Harbor</h1>
-        </div>
+        </Link>
         <span className='flex flex-col space-y-2'>
           <h1 className='text-[18px]'>Navigation</h1>
-          <Link className='font-light' href='/subscriptions'>
+          <a className='cursor-not-allowed font-light text-my-mid-gray'>
             Subscriptions
-          </Link>
+          </a>
           <Link className='font-light' href='/faq'>
             FAQ
-          </Link>
-          <Link className='font-light' href='/contact'>
-            Contact
           </Link>
         </span>
         <span className='flex flex-col space-y-2'>

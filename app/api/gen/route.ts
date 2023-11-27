@@ -16,7 +16,7 @@ interface OpenAIResponse {
 }
 
 export async function POST(req: Request) {
-  const { prompt, user_id, access_token } = await req.json();
+  const { prompt } = await req.json();
 
   // Create new open ai
   const client = new OpenAI({
@@ -42,16 +42,9 @@ export async function POST(req: Request) {
   const openAIResponse: OpenAIResponse = JSON.parse(
     response.choices[0]?.message?.content
   );
-  console.log(openAIResponse);
-  if (openAIResponse) {
-    // Add the responses for songs and playlists to users firebase database
-    // ** Not being used because of the uneccessary duplicate entries
-
-    // const userDocRef = doc(firestore, 'users', user_id);
-    // await updateDoc(userDocRef, {
-    //   songs: openAIResponse.songs ?? [],
-    //   playlists: openAIResponse.playlists ?? [],
-    // });
+  console.log(openAIResponse.playlists);
+  if (openAIResponse && openAIResponse.songs) {
+    console.log(' in the if');
 
     return NextResponse.json(
       {
@@ -60,7 +53,17 @@ export async function POST(req: Request) {
       },
       { status: 200 }
     );
+  } else if (openAIResponse && openAIResponse.playlists) {
+    console.log(' in elif');
+
+    return NextResponse.json(
+      {
+        playlists: openAIResponse.playlists,
+      },
+      { status: 200 }
+    );
   } else {
+    console.log(' in the else');
     return NextResponse.json(
       {
         songs: [],
@@ -69,5 +72,4 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
-  // return new Response(response.choices[0].message.content);
 }

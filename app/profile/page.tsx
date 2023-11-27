@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { grabUserInfo, initializeRecommendations } from '@/lib/utils/index';
 import { DocumentData, doc, updateDoc } from 'firebase/firestore';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { CustomUser, UserCustom, genres } from '@/lib/constants';
+import { CustomUser, UserCustom, genres } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -87,7 +87,7 @@ const Page = () => {
       displayName: userInfo.displayName || session!.user!.displayName,
       email: userInfo.email || session!.user!.email,
     });
-    await initializeRecommendations(userInfo, session!.accessToken);
+    // await initializeRecommendations(userInfo, session!.accessToken);
     setLoading(false);
   };
   console.log(loading);
