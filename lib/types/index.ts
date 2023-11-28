@@ -79,6 +79,7 @@ export interface CustomUser {
   photoURL: string | null;
   setup: boolean;
   uid: string;
+  sync: boolean;
 }
 
 // Api related constants

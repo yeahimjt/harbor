@@ -46,7 +46,7 @@ const Content = () => {
       handleGrabUaserListenNow();
     }
   }, [session]);
-  console.log(listenNow);
+  console.log(session);
   return (
     <div className='page-container overflow-x-hidden'>
       <DashNav />

@@ -16,6 +16,8 @@ import {
   generateBio,
   getUserPreferences,
   getUsersGenerationsRemaining,
+  handleUserUploadPlaylist,
+  userWantsSync,
 } from '@/lib/utils/index';
 import { InfoIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -54,7 +56,6 @@ const Page = () => {
     }
     setLoading(true);
     if (toggled) {
-      console.log('in toggled');
       const preferences = await getUserPreferences(session!.user.uid);
       setUserPreferences(preferences);
       const prompt = `Generate 1 playlist. The user has said they enjoy these genres: ${userPreferences?.genres}. If the array is empty that means they did not enter anything and you should not worry about what you recommend to them as they should generally like anything. If the array is not empty they entered genres they prefer for you to recommend. Here is more context that the user has provided for you to help you for your recommendations: (${userPreferences?.context}). If no context is present then you should not worry about it. In all cases never just recommend music from a particular artist unless they specify it!. Always try and include other artists that are similar to the genre/context that the users provides. Please return the playlists in JSON format: {playlists: [{playlistName: string, tracks:[{title, artist}, {title,artist}]}]}. Always generate at least 5 songs for the playlists. Title is the title of the song artist is the artist of the song. Here is context they additionally provided to possibly help: ${context}`;
@@ -70,6 +71,16 @@ const Page = () => {
         );
         if (generations) {
           setGenerationsRemaining(generations);
+        }
+        const sync = await userWantsSync(session!.user.uid);
+        if (sync) {
+          handleUserUploadPlaylist(
+            session!.user.uid,
+            response,
+            session!.accessToken,
+            session!.user.id
+          );
+          return;
         }
         router.push(`/dashboard/playlists-generated/${response}`);
       }
@@ -88,6 +99,16 @@ const Page = () => {
         );
         if (generations) {
           setGenerationsRemaining(generations);
+        }
+        const sync = await userWantsSync(session!.user.uid);
+        if (sync) {
+          handleUserUploadPlaylist(
+            session!.user.uid,
+            response,
+            session!.accessToken,
+            session!.user.id
+          );
+          return;
         }
         router.push(`/dashboard/playlists-generated/${response}`);
       }

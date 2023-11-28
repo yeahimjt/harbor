@@ -49,7 +49,7 @@ const handler = NextAuth({
         },
       });
       const spotifyUserProfile = await spotifyResponse.json();
-
+      console.log(spotifyUserProfile);
       // Add custom logic to link Spotify authentication with Firebase
       if (session.user) {
         try {
@@ -62,6 +62,7 @@ const handler = NextAuth({
           if (user) {
             session.user = {
               ...user,
+              id: spotifyUserProfile.id,
               image: spotifyUserProfile.images[0],
               uri: spotifyUserProfile.uri,
               product: spotifyUserProfile.product,

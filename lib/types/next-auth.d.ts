@@ -18,6 +18,7 @@ declare module 'next-auth' {
         width: number;
         height: number;
       };
+      id: string;
       product: string;
     };
     // Add any other properties you may need
