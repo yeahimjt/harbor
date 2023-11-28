@@ -14,7 +14,13 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { grabSimilarSongData, grabSongData } from '@/lib/utils/index';
+import {
+  addToLiked,
+  grabHasUserLiked,
+  grabSimilarSongData,
+  grabSongData,
+  removeLiked,
+} from '@/lib/utils/index';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { MoreVertical, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -29,6 +35,7 @@ const Page = () => {
   const [songData, setSongData] = useState<SpotifyApi.TrackObjectFull | null>(
     null
   );
+  const [hasUserLiked, setHasUserLiked] = useState<boolean | null>(null);
 
   const [similarSongData, setSimilarSongData] =
     useState<SpotifyApi.RecommendationsObject | null>(null);
@@ -41,12 +48,28 @@ const Page = () => {
       const response = await grabSimilarSongData(id, session!.accessToken);
       setSimilarSongData(response);
     }
+    async function handleHasUserLiked() {
+      const response = await grabHasUserLiked(id, session!.accessToken);
+      setHasUserLiked(response);
+    }
     if (session) {
       handleGrabSongData();
       handleGrabSimilarSongsData();
+      handleHasUserLiked();
     }
   }, [session]);
-
+  const handleLiked = async () => {
+    console.log(id, session!.accessToken);
+    if (hasUserLiked) {
+      console.log('in removin');
+      const response = await removeLiked(id, session!.accessToken);
+      setHasUserLiked(!hasUserLiked);
+    } else {
+      console.log('in adding');
+      const response = await addToLiked(id, session!.accessToken);
+      setHasUserLiked(!hasUserLiked);
+    }
+  };
   console.log(similarSongData);
   return (
     <div className='page-container'>
@@ -55,7 +78,12 @@ const Page = () => {
         <section className='page-section'>
           {songData && (
             <>
-              <MediaInfo type='track' media={songData} />
+              <MediaInfo
+                type='track'
+                handleLiked={handleLiked}
+                liked={hasUserLiked}
+                media={songData}
+              />
 
               <SubSection sub_title='Similar Tracks' redirect={undefined}>
                 {similarSongData && <SongFlow songs={similarSongData} />}

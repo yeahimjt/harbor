@@ -530,3 +530,63 @@ export async function handleUserUploadTrack(
     }),
   });
 }
+
+export async function grabHasUserLiked(song_id: string, access_token: string) {
+  if (!song_id || !access_token) {
+    console.error(`No song id or access token provided`);
+    return;
+  }
+  console.log(access_token);
+  try {
+    const response = await fetch(
+      `${spotifyBaseUrl}me/tracks/contains?ids=${song_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    const responseData = await response.json();
+    console.log(responseData);
+    return responseData[0];
+  } catch (error: any) {
+    console.error(`Error checking if user has liked track: `, error);
+    return;
+  }
+}
+
+export async function addToLiked(song_id: string, access_token: string) {
+  console.log('in my respsive function');
+  if (!song_id || !access_token) {
+    console.error(`No song id provided or access token`);
+    return;
+  }
+  try {
+    const response = await fetch(`${spotifyBaseUrl}me/tracks?ids=${song_id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  } catch (error) {
+    console.error(`Error adding to users likes: `, error);
+  }
+}
+
+export async function removeLiked(song_id: string, access_token: string) {
+  console.log('in my respsive function');
+  if (!song_id || !access_token) {
+    console.error(`No song id provided or access token`);
+    return;
+  }
+  try {
+    const response = await fetch(`${spotifyBaseUrl}me/tracks?ids=${song_id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+  } catch (error) {
+    console.error(`Error removing to users likes: `, error);
+  }
+}

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import PlayButton from '../play';
 import Image from 'next/image';
 import {
@@ -9,7 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreVertical, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { MoreVertical, ThumbsDown, ThumbsUp, XIcon } from 'lucide-react';
+import { addToLiked } from '@/lib/utils/index';
+import { removeLiked } from '@/lib/utils/index';
 
 interface MediaInfoProps {
   type: 'album' | 'track' | 'playlist' | 'playlist-generated';
@@ -22,9 +25,11 @@ interface MediaInfoProps {
     | SpotifyApi.TrackObjectFull
     | SpotifyApi.AlbumObjectFull
     | SpotifyApi.PlaylistObjectFull;
+  liked?: boolean | null;
+  handleLiked?: () => void;
 }
 
-const MediaInfo = ({ type, media }: MediaInfoProps) => {
+const MediaInfo = ({ type, media, liked, handleLiked }: MediaInfoProps) => {
   if (type === 'track') {
     const songData = media as SpotifyApi.TrackObjectFull;
     return (
@@ -45,15 +50,23 @@ const MediaInfo = ({ type, media }: MediaInfoProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='mr-4'>
                   <DropdownMenuGroup>
-                    <DropdownMenuItem className='flex cursor-pointer gap-2'>
-                      <ThumbsUp />
-                      Suggest More Like This
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className='flex cursor-pointer gap-2'>
-                      <ThumbsDown />
-                      Suggest Less Like This
-                    </DropdownMenuItem>
+                    {!liked ? (
+                      <DropdownMenuItem
+                        className='flex cursor-pointer gap-2'
+                        onClick={() => handleLiked!()}
+                      >
+                        <ThumbsUp />
+                        Suggest More Like This
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem
+                        className='flex cursor-pointer gap-2'
+                        onClick={() => handleLiked!()}
+                      >
+                        <XIcon />
+                        Remove from likes
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>

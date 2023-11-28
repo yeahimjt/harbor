@@ -110,6 +110,7 @@ const Steps: React.FC<StepsProps> = ({
                       setup: false,
                       tokensValidAfterTime: null,
                       uid: '',
+                      sync: false,
                     };
                   }
                 })
@@ -171,6 +172,7 @@ const Steps: React.FC<StepsProps> = ({
                       setup: false,
                       tokensValidAfterTime: null,
                       uid: '',
+                      sync: false,
                     };
                   }
                 })
