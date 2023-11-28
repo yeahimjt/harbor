@@ -8,33 +8,30 @@ interface playButtonProps {
   size: number;
 }
 const PlayButton = ({ trackUri, redirect, size }: playButtonProps) => {
-  console.log(trackUri);
-  const { data: session } = useSession();
-  const { setUris } = usePlayerStore();
-  if (session?.user.product === 'free') {
-    return (
-      <div className={`flex  items-end justify-end `}>
-        <a
-          target='_blank'
-          rel='noreferrer'
-          className='flex justify-end rounded-full bg-my-light-gray p-2'
-          href={redirect}
-        >
-          <Play size={size} />
-        </a>
-      </div>
-    );
-  }
+  // if (session?.user.product === 'free') {
   return (
-    <div className={`flex items-end justify-end `}>
-      <button
+    <div className={`flex  items-end justify-end `}>
+      <a
+        target='_blank'
+        rel='noreferrer'
         className='flex justify-end rounded-full bg-my-light-gray p-2'
-        onClick={() => setUris(trackUri)}
+        href={redirect}
       >
-        <Play className='h-[200px]' />
-      </button>
+        <Play size={size} />
+      </a>
     </div>
   );
+  // }
+  // return (
+  //   <div className={`flex items-end justify-end `}>
+  //     <button
+  //       className='flex justify-end rounded-full bg-my-light-gray p-2'
+  //       onClick={() => setUris(trackUri)}
+  //     >
+  //       <Play className='h-[200px]' />
+  //     </button>
+  //   </div>
+  // );
 };
 
 export default PlayButton;

@@ -15,6 +15,7 @@ export const createUserDocument = functions.auth
       genres: [],
       setup: false,
       generations_remaining: 3,
+      sync: false,
       // Add other necessary data
     };
 

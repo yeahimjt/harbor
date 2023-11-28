@@ -10,7 +10,7 @@ const handler = NextAuth({
       clientSecret: String(process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET),
       // You can customize additional options here, if needed
       authorization:
-        'https://accounts.spotify.com/authorize?scope=user-read-email user-library-read user-modify-playback-state streaming user-read-currently-playing user-read-playback-state user-read-private',
+        'https://accounts.spotify.com/authorize?scope=user-read-email user-library-read user-modify-playback-state streaming user-read-currently-playing user-read-playback-state user-read-private playlist-modify-public playlist-modify-private',
     }),
   ],
   pages: {
