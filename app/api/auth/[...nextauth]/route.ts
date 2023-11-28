@@ -141,7 +141,6 @@ async function refreshAccessToken(token: any) {
   const body = await fetch(url, payload);
   const response = await body.json();
   if (response) {
-    console.log(response);
     const { access_token, token_type, expires_in, scope } = response;
     token.accessToken = access_token;
     token.accessTokenExpires = expires_in;

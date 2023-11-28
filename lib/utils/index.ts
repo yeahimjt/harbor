@@ -14,7 +14,6 @@ import { CustomUser, spotifyBaseUrl } from '../types';
 export async function checkUserStatus(id: string) {
   try {
     if (!id) {
-      console.log('invalid id');
       return;
     }
 
@@ -24,7 +23,6 @@ export async function checkUserStatus(id: string) {
     const usersData = await getDocs(q);
 
     if (usersData.empty) {
-      console.log('user was not found');
       return;
     }
 
@@ -40,7 +38,6 @@ export async function checkUserStatus(id: string) {
 
 export async function userStatusUpdate(userInfo: CustomUser) {
   try {
-    console.log(userInfo);
     if (!userInfo || !userInfo.uid) {
       console.log('Invalid user information or user ID');
       return;
@@ -62,7 +59,6 @@ export async function userStatusUpdate(userInfo: CustomUser) {
 }
 
 export async function grabUserInfo(id: string) {
-  console.log(id);
   try {
     if (!id) {
       console.log('invalid id');
@@ -73,7 +69,6 @@ export async function grabUserInfo(id: string) {
     const userDocRef = doc(firestore, 'users', id);
     const userDocSnap = await getDoc(userDocRef);
     if (userDocSnap.exists()) {
-      console.log(userDocSnap.data());
       // return userDocSnap.data();
       return {
         context: userDocSnap.data().context,
@@ -146,7 +141,6 @@ export const generateBio = async (
       throw new Error(`HTTP error! Status :${response.status}`);
     }
     const responseData = await response.json();
-    console.log(responseData);
     if (responseData && responseData.songs && responseData.playlists) {
       const spotifyResponse = await fetch('/api/spotify', {
         method: 'POST',
@@ -177,7 +171,6 @@ export const generateBio = async (
           user_id: id,
         }),
       });
-      console.log(responseData);
       if (!spotifyResponse.ok) {
         throw new Error(`HTTP error! Status :${response.status}`);
       }
@@ -475,12 +468,11 @@ export async function handleUserUploadPlaylist(
     const playlist = playlists.find(
       (item: any) => item.playlistName === playlist_name
     );
-    console.log('the playlist grabbed is! : ', playlist);
     // Insert track uris of playlist generated into an array
     const track_uris = playlist.tracks.map(
       (track: any) => track.tracks.items[0].uri
     );
-    console.log(track_uris);
+
     if (playlist) {
       const playlistUpload = await fetch(
         `${spotifyBaseUrl}users/${user_id}/playlists`,
@@ -536,7 +528,6 @@ export async function grabHasUserLiked(song_id: string, access_token: string) {
     console.error(`No song id or access token provided`);
     return;
   }
-  console.log(access_token);
   try {
     const response = await fetch(
       `${spotifyBaseUrl}me/tracks/contains?ids=${song_id}`,
@@ -547,7 +538,7 @@ export async function grabHasUserLiked(song_id: string, access_token: string) {
       }
     );
     const responseData = await response.json();
-    console.log(responseData);
+
     return responseData[0];
   } catch (error: any) {
     console.error(`Error checking if user has liked track: `, error);
@@ -556,7 +547,6 @@ export async function grabHasUserLiked(song_id: string, access_token: string) {
 }
 
 export async function addToLiked(song_id: string, access_token: string) {
-  console.log('in my respsive function');
   if (!song_id || !access_token) {
     console.error(`No song id provided or access token`);
     return;
@@ -574,7 +564,6 @@ export async function addToLiked(song_id: string, access_token: string) {
 }
 
 export async function removeLiked(song_id: string, access_token: string) {
-  console.log('in my respsive function');
   if (!song_id || !access_token) {
     console.error(`No song id provided or access token`);
     return;

@@ -59,18 +59,15 @@ const Page = () => {
     }
   }, [session]);
   const handleLiked = async () => {
-    console.log(id, session!.accessToken);
     if (hasUserLiked) {
-      console.log('in removin');
       const response = await removeLiked(id, session!.accessToken);
       setHasUserLiked(!hasUserLiked);
     } else {
-      console.log('in adding');
       const response = await addToLiked(id, session!.accessToken);
       setHasUserLiked(!hasUserLiked);
     }
   };
-  console.log(similarSongData);
+
   return (
     <div className='page-container'>
       <DashNav />

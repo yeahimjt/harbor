@@ -6,7 +6,6 @@ interface playerProps {
   track_uri: string;
 }
 const Player = ({ access_token, track_uri }: playerProps) => {
-  console.log(access_token);
   // const { data: session } = useSession();
   // if (session?.user.product === 'free') {
   //   return

@@ -31,7 +31,6 @@ const Page = () => {
         }
       );
       const responseData = await response.json();
-      console.log(responseData);
       setLimitedDataAlbum(responseData);
     }
     async function grabLimitedReleasedPlaylist() {
@@ -44,7 +43,6 @@ const Page = () => {
         }
       );
       const responseData = await response.json();
-      console.log(responseData);
       setLimitedDataPlaylist(responseData);
     }
     if (session) {

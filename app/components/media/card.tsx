@@ -6,7 +6,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const MediaCard = ({ media, type, overflow }: MediaCardProps) => {
-  console.log(media);
   if (type === 'track') {
     const trackData = media as SpotifyApi.TrackSearchResponse[];
     return (
@@ -99,7 +98,6 @@ const MediaCard = ({ media, type, overflow }: MediaCardProps) => {
       playlistName: string;
       playlistCover: string;
     }[];
-    console.log(playlistData);
     return (
       <ScrollArea className=''>
         <span

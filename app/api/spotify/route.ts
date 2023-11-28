@@ -115,7 +115,6 @@ export async function POST(req: Request) {
           playlistCover: downloadURL,
           tracks: [...playlistSongDataArray.filter(Boolean)],
         };
-        console.log(updatedPlaylist);
         await updateDoc(userPlaylistDocRef, {
           playlists: arrayUnion(updatedPlaylist),
         });
@@ -184,7 +183,6 @@ export async function POST(req: Request) {
           playlistCover: downloadURL,
           tracks: [...playlistSongDataArray.filter(Boolean)],
         };
-        console.log(updatedPlaylist);
         await updateDoc(userPlaylistDocRef, {
           playlists: arrayUnion(updatedPlaylist),
         });

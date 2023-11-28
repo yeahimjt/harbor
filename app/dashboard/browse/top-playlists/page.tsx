@@ -12,11 +12,9 @@ import { useInView } from 'react-intersection-observer';
 const Page = () => {
   const { ref, inView } = useInView();
   const { data: session } = useSession();
-  console.log(inView);
   const [offset, setOffset] = useState<number>(0);
   const [topPlaylists, setTopPlaylists] =
     useState<SpotifyApi.ListOfFeaturedPlaylistsResponse | null>(null);
-  console.log(offset);
   useEffect(() => {
     async function grabLimitedReleasedAlbum() {
       const response = await fetch(
@@ -48,7 +46,6 @@ const Page = () => {
       }
     }
     if (inView && session && offset < 24) {
-      console.log(' in here!');
       grabLimitedReleasedAlbum();
     }
   }, [inView, session]);

@@ -67,9 +67,7 @@ const Page = () => {
       return null;
     });
   };
-  console.log(userInfo);
   const addGenre = (targetGenre: string) => {
-    console.log(' in here');
     const updatedGenres = usersGenres.map((genre) =>
       genre.value === targetGenre ? { ...genre, clicked: true } : genre
     );
@@ -83,9 +81,8 @@ const Page = () => {
       }
       return null;
     });
-    console.log(usersGenres);
   };
-  console.log(userInfo);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!session || !userInfo) {
@@ -103,7 +100,6 @@ const Page = () => {
     // await initializeRecommendations(userInfo, session!.accessToken);
     setLoading(false);
   };
-  console.log(loading);
   return (
     <div className='page-container'>
       <DashNav />

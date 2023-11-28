@@ -10,7 +10,6 @@ import SpotifyProvider from 'next-auth/providers/spotify';
 const AuthButtons = () => {
   const [signInWithGoogle, userGoogle, errorGoogle] = useSignInWithGoogle(auth);
   const { closeDialog } = useDialogStore();
-  console.log(userGoogle);
   useEffect(() => {
     if (userGoogle) {
       closeDialog();

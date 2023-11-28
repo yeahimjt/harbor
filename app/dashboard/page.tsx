@@ -23,7 +23,6 @@ const Page = () => {
   // Check if user has setup their preferences
   useEffect(() => {
     async function checkSetupCompleted() {
-      console.log(session);
       const userGrabbed = await grabUserInfo(session!.user!.uid);
       if (userGrabbed) {
         setUserInfo(userGrabbed);

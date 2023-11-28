@@ -42,10 +42,7 @@ export async function POST(req: Request) {
   const openAIResponse: OpenAIResponse = JSON.parse(
     response.choices[0]?.message?.content
   );
-  console.log(openAIResponse.playlists);
   if (openAIResponse && openAIResponse.songs) {
-    console.log(' in the if');
-
     return NextResponse.json(
       {
         songs: openAIResponse.songs,
@@ -54,8 +51,6 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } else if (openAIResponse && openAIResponse.playlists) {
-    console.log(' in elif');
-
     return NextResponse.json(
       {
         playlists: openAIResponse.playlists,
@@ -63,7 +58,6 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } else {
-    console.log(' in the else');
     return NextResponse.json(
       {
         songs: [],

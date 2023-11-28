@@ -27,7 +27,6 @@ const Page = () => {
       handlePlaylistGeneratedGrab();
     }
   }, [session, id]);
-  console.log(playlistData);
   return (
     <div className='page-container'>
       <DashNav />

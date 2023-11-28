@@ -39,7 +39,6 @@ const Page = () => {
       grabUsersPlaylistsHarbor();
     }
   }, [session]);
-  console.log(usersPlaylistsHarbor);
   return (
     <div className='page-container'>
       <DashNav />

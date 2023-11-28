@@ -50,7 +50,6 @@ const Steps: React.FC<StepsProps> = ({
   };
 
   const addGenre = (targetGenre: string) => {
-    console.log(' in here');
     const updatedGenres = usersGenres.map((genre) =>
       genre.value === targetGenre ? { ...genre, clicked: true } : genre
     );
@@ -66,7 +65,6 @@ const Steps: React.FC<StepsProps> = ({
       return null;
     });
   };
-  console.log(userInfo);
   return (
     <div className='mx-auto flex h-screen max-w-[640px] items-center justify-center'>
       <section className='w-full space-y-8 text-my-dark-gray'>

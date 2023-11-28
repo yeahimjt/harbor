@@ -10,7 +10,6 @@ const Auth = () => {
   const { closeDialog, isOpen } = useDialogStore();
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       closeDialog();
     }

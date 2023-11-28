@@ -7,7 +7,6 @@ interface songFlowProps {
   songs: SpotifyApi.RecommendationsObject;
 }
 const SongFlow = ({ songs }: songFlowProps) => {
-  console.log(songs);
   return (
     <section className='flex select-none flex-wrap gap-4 '>
       {songs?.tracks.map(
